@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+{% load static %}
+{% load crispy_forms_tags %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup.Django</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script
+    
+
+</head>
+<body class="container">
+<style>
+.asteriskField{
+    color:red;
+}
+.error{
+    color:red;
+    font-style:bold;
+    display:block;
+}
+</style>
+        <div class="card">
+        <div class="card-body">
+    <form method="POST" enctype="multipart/form-data" class="form-group" id="Task1Form">
+        {% csrf_token %}
+        <h4 class="card-title">Personal Details</h4>
+
+        {{ form.f_name |as_crispy_field }}
+        {{ form.f_name.error }}
+        {{ form.l_name |as_crispy_field }}
+        {{ form.dob |as_crispy_field }}
+        {{ form.gender.label  }}{{ form.gender  }}
+        {{ form.relationship_status |as_crispy_field }}
+        {{ form.language_known |as_crispy_field }}
+        {{ form.hobbies |as_crispy_field }}
+        {{ form.profile_pic |as_crispy_field }}
+
+        <h4 class="card-title">Contact Details</h4>
+
+        {{ form.email |as_crispy_field }}
+        {{ form.mobile }}
+        {{ form.TelePhone |as_crispy_field }}
+        {{ form.door_num |as_crispy_field }}
+        {{ form.street |as_crispy_field }}
+        {{ form.town_city |as_crispy_field }}
+         {{ form.district |as_crispy_field }}
+        {{ form.state |as_crispy_field }}
+        {{ form.country |as_crispy_field }}
+        {{ form.zip_code |as_crispy_field }}
+
+        <h4 class="card-title">Educational Details</h4>
+
+        {{ form.course_name |as_crispy_field }}
+        {{ form.institute_name |as_crispy_field }}
+        {{ form.institute_address |as_crispy_field }}
+        {{ form.started_year |as_crispy_field }}
+        {{ form.passed_year |as_crispy_field }}
+        {{ form.percentage_gpa |as_crispy_field }}
+        {{ form.upload_resume |as_crispy_field }}
+        {{ form.password |as_crispy_field }}
+        {{ form.confirm_password |as_crispy_field }}
+            {{form.errors}}
+        <button class="btn btn-primary" type='submit'>Submit</button>
+        <button class="btn btn-danger" type='reset'>Reset</button>
+    </form>
+</div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+
+
+$(function(){
+    var $registerForm = $("#Task1Form");
+    if($registerForm.length){
+        $registerForm.validate({
+            rules:{
+                email:{
+                    required:true,
+                    email:true,
+                },
+                dob:{
+                    required:true,
+                    date:true,
+                },
+                door_num:{
+                    required:true,
+                    number:true,
+                    maxlength:5,
+                },
+                zip_code:{
+                    required:true,
+                    number:true,
+                    maxlength:7,
+                },
+                started_year:{
+                    required:true,
+                    number:true,
+                    maxlength:4,
+                    pminlength:4,
+                },
+               passed_year:{
+                    required:true,
+                    number:true,
+                    maxlength:4,
+                    minlength:4,
+                },
+                percentage_gpa:{
+                    required:true,
+                    number:true,
+                    charset:true,
+                    maxlength:4,
+                },
+                gender:{
+                    required:true,
+                },
+                password: "required",
+                confirm_password: {
+                equalTo: "#password"
+                    },
+            },
+            messages:{
+                f_name:{
+                    required : "Please Enter Your First Name"
+                
+                },
+                f_name:{
+                    required : "Please Enter Your First Name"
+                
+                },
+                dob:{
+                    required:"Please enter your Date of birth"
+                },
+                gender:{
+                    required:"Please enter your gender"
+                },
+                relationship_status:{
+                    required:"Please enter your relationship_status"
+                },
+                language_known:{
+                    required:"Please enter your language_known "
+                },
+                hobbies:{
+                    required:"Please enter your hobbies"
+                },
+                profile_pic:{
+                    required:"Please choose your profile_pic"
+                },
+                email:{
+                    required:"Please Enter Your Email"
+                },
+                
+                mobile_num_1:{
+                    required:"Please Enter Your Mobile Number"
+                },
+                
+                door_num:{
+                    required:"Please Enter Your door num"
+                },
+                town_city:{
+                    required:"Please Enter Your town city "
+                },
+                district:{
+                    required:"Please Enter Your district"
+                },
+               state :{
+                    required:"Please Enter Your state "
+                },
+                country:{
+                    required:"Please Enter Your country"
+                },
+                zip_code:{
+                    required:"Please Enter Your  zip code"
+                },
+                course_name:{
+                    required:"Please Enter Your course name"
+                },
+                institute_name:{
+                    required:"Please Enter Your institute name"
+                },
+                institute_address:{
+                    required:"Please Enter Your institute address "
+                },
+                started_year:{
+                    required:"Please Enter Your started year "
+                },
+                passed_year:{
+                    required:"Please Enter Your passed year "
+                },
+                percentage_gpa:{
+                    required:"Please Enter Your percentage gpa "
+                },
+                upload_resume:{
+                    required:"Please Choose Your upload resume "
+                },
+                password:{
+                    required:"Please Enter Your password"
+                },
+                confirm_password:{
+                    required:"Please Enter Your confirm password "
+                },
+                
+               
+            
+            }
+        })
+    }
+})
+
+$(document).on('submit','#Task1Form',function(event){
+    event.preventDefault();
+    var Task1Form = $("#Task1Form")
+
+    $.ajax({
+        url : "{% url 'personaldetails' %}",
+        type : 'POST',
+        
+        datatype: "json",
+        mimeType:"multipart/form-data",
+        header : {'X-CSRFToken': '{% csrf_token %}'},
+        data : Task1Form.serialize(),
+        success: function(response){
+            var success = response['success'];
+            if(success){
+                alert("form valid");
+            
+            }else{
+                alert({{form.errors}});
+            }
+        },
+        failure:function(error){
+            alert("error occured");
+        }
+    })
+
+})
+</script>
