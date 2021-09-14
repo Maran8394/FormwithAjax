@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    
+    <script type="text/javascript" href="{% static 'js/ajax.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script
     
@@ -22,6 +22,9 @@
 <style>
 .asteriskField{
     color:red;
+}
+li{
+    list-style-type: none;
 }
 .error{
     color:red;
@@ -39,7 +42,7 @@
         {{ form.f_name.error }}
         {{ form.l_name |as_crispy_field }}
         {{ form.dob |as_crispy_field }}
-        {{ form.gender.label  }}{{ form.gender  }}
+        {{ form.gender |as_crispy_field }}
         {{ form.relationship_status |as_crispy_field }}
         {{ form.language_known |as_crispy_field }}
         {{ form.hobbies |as_crispy_field }}
@@ -48,8 +51,8 @@
         <h4 class="card-title">Contact Details</h4>
 
         {{ form.email |as_crispy_field }}
-        {{ form.mobile }}
-        {{ form.TelePhone |as_crispy_field }}
+       {{ form.mobile|as_crispy_field }}
+        {{ form.telePhone |as_crispy_field }}
         {{ form.door_num |as_crispy_field }}
         {{ form.street |as_crispy_field }}
         {{ form.town_city |as_crispy_field }}
@@ -69,9 +72,9 @@
         {{ form.upload_resume |as_crispy_field }}
         {{ form.password |as_crispy_field }}
         {{ form.confirm_password |as_crispy_field }}
-            {{form.errors}}
-        <button class="btn btn-primary" type='submit'>Submit</button>
-        <button class="btn btn-danger" type='reset'>Reset</button>
+            
+        <button class="btn btn-primary" type="submit">Submit</button>
+        <button class="btn btn-danger" type="reset">Reset</button>
     </form>
 </div>
 </div>
@@ -79,9 +82,10 @@
 </html>
 <script type="text/javascript">
 
-
 $(function(){
     var $registerForm = $("#Task1Form");
+    
+   
     if($registerForm.length){
         $registerForm.validate({
             rules:{
@@ -107,7 +111,7 @@ $(function(){
                     required:true,
                     number:true,
                     maxlength:4,
-                    pminlength:4,
+                    minlength:4,
                 },
                passed_year:{
                     required:true,
@@ -118,23 +122,32 @@ $(function(){
                 percentage_gpa:{
                     required:true,
                     number:true,
-                    charset:true,
                     maxlength:4,
                 },
                 gender:{
                     required:true,
                 },
-                password: "required",
+                password: {
+                    required:true,
+                    minlength:5,
+                    maxlength:16,
+                },
                 confirm_password: {
                 equalTo: "#password"
                     },
+                mobile_1:{
+                    required:true,
+                },
+                upload_resume:{
+                    accept: "application/pdf",
+                },
             },
             messages:{
                 f_name:{
                     required : "Please Enter Your First Name"
                 
                 },
-                f_name:{
+                l_name:{
                     required : "Please Enter Your First Name"
                 
                 },
@@ -142,10 +155,10 @@ $(function(){
                     required:"Please enter your Date of birth"
                 },
                 gender:{
-                    required:"Please enter your gender"
+                    required:"Please Choose your gender"
                 },
                 relationship_status:{
-                    required:"Please enter your relationship_status"
+                    required:"Please Choose your relationship_status"
                 },
                 language_known:{
                     required:"Please enter your language_known "
@@ -160,7 +173,7 @@ $(function(){
                     required:"Please Enter Your Email"
                 },
                 
-                mobile_num_1:{
+                mobile_1:{
                     required:"Please Enter Your Mobile Number"
                 },
                 
@@ -215,27 +228,102 @@ $(function(){
             }
         })
     }
-})
+});
+
+
 
 $(document).on('submit','#Task1Form',function(event){
     event.preventDefault();
     var Task1Form = $("#Task1Form")
+    var f_name = document.getElementById("id_f_name");
+    var l_name = document.getElementById("id_l_name");
+    var dob = document.getElementById("id_dob");
+    var radios = $("input[type='radio']");
+    var gender = radios.filter(":checked");
+    var relationship_status = document.getElementsByName("relationship_status");
+    var lang_known = document.getElementById("id_language_known");
+    var hobbies = document.getElementById("id_hobbies");
+    var profile_pic = document.getElementById("profile_pic");
+    var email = document.getElementById("id_email");
+    //var mobile_num_0 = document.getElementById("id_mobile_0");
+    var mobile_num_1 = document.getElementById("id_mobile");
+    var telephone = document.getElementById("id_telePhone");
+    var  door_num = document.getElementById("id_door_num");
+    var street = document.getElementById("id_street");
+    var town_city = document.getElementById("id_town_city");
+    var district = document.getElementById("id_district");
+    var state = document.getElementById("id_state");
+    var country = document.getElementById("id_country");
+    var zip_code = document.getElementById("id_zip_code");
+    var course_name = document.getElementById("id_course_name");
+    var institute_name = document.getElementById("id_institute_name");
+    var institute_address = document.getElementById("id_institute_address");
+    var started_year = document.getElementById("id_started_year");
+    var passed_year = document.getElementById("id_passed_year");
+    var percentage_gpa = document.getElementById("id_percentage_gpa");
+    var upload_resume = document.getElementById("resume");
+    var password = document.getElementById("password");
+    var confirm_password = document.getElementById("id_confirm_password");
 
+  
+
+    //console.log(mobile_num_1.value);
+    var csrf = document.getElementsByName("csrfmiddlewaretoken");
+    //var mobile_num = mobile_num_0.value + mobile_num_1.value;
+    
+    const fd  = new FormData();
+    fd.append('csrfmiddlewaretoken',csrf[0].value);
+    fd.append('f_name',f_name.value);
+    fd.append('l_name',l_name.value);
+    fd.append('dob',dob.value);
+    fd.append('gender',gender[0].value);
+    fd.append('relationship_status',relationship_status[1].value);
+    fd.append('language_known',lang_known.value);
+    fd.append('hobbies',hobbies.value);
+    fd.append('profile_pic',profile_pic.files[0]);
+    fd.append('email',email.value);
+ 
+    fd.append('mobile',mobile_num_1.value);
+    fd.append("state",state.value);
+    fd.append('telePhone',telephone.value);
+    fd.append('door_num',door_num.value);
+    fd.append('street',street.value);
+    fd.append('town_city',town_city.value);
+    fd.append('district',district.value);
+    fd.append('country',country.value);
+    fd.append('zip_code',zip_code.value);
+    fd.append('course_name',course_name.value);
+    fd.append('institute_name',institute_name.value);
+    fd.append('institute_address',institute_address.value);
+    fd.append('started_year',started_year.value);
+    fd.append('passed_year',passed_year.value);
+    fd.append('percentage_gpa',percentage_gpa.value);
+    fd.append('upload_resume',upload_resume.files[0]);
+    fd.append('password',password.value);
+    fd.append('confirm_password',confirm_password.value);
+  
     $.ajax({
         url : "{% url 'personaldetails' %}",
         type : 'POST',
-        
         datatype: "json",
         mimeType:"multipart/form-data",
         header : {'X-CSRFToken': '{% csrf_token %}'},
-        data : Task1Form.serialize(),
+        cache : false,
+        processData: false,
+        contentType:false,
+        data :fd,
         success: function(response){
-            var success = response['success'];
-            if(success){
+            var res = JSON.parse(response);
+            console.log(res);
+
+            var st = res['success'];
+           
+            if(st){
                 alert("form valid");
             
             }else{
-                alert({{form.errors}});
+                var obj_val = Object.values(res['errors']);
+                alert(obj_val);
             }
         },
         failure:function(error){
