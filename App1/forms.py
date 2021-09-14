@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 from . models import Personal_Details
-from phonenumber_field.widgets import PhoneNumberPrefixWidget
+
 
 class DateInp(forms.DateInput):
     input_type = "date"
@@ -24,5 +24,9 @@ class Personal_details(ModelForm):
             'password': forms.PasswordInput(attrs={'id':"password"}),
             'upload_resume': forms.FileInput(attrs={'id':'resume','accept':"application/pdf, application/vnd.ms-excel"}),
             'profile_pic': forms.FileInput(attrs={'id':'profile_pic', 'accept':"image/*"}),
-            'terms_conditions':forms.CheckboxInput(attrs={'id':'terms_conditions','name':'terms_conditions'})
+            'terms_conditions':forms.CheckboxInput(attrs={'id':'terms_conditions'})
         }
+
+    def __ini__(self,*args,**kwargs):
+        super(Personal_Details,self).__init__(*args,**kwargs)
+        self.fields['term_conditions'].required = True

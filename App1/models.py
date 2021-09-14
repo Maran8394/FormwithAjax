@@ -39,7 +39,7 @@ class Personal_Details(models.Model):
     upload_resume   = models.FileField(verbose_name="Upload resume",upload_to='uploaded_resume',null=True,blank=False)
     password = models.CharField(verbose_name="Password",max_length=200,null=True,blank=False)
     confirm_password = models.CharField(verbose_name="Confirm Password",max_length=200,null=True,blank=False)
-    terms_conditions = models.BooleanField(verbose_name="Terms & Conditions",null=True,blank=True)
+    terms_conditions = models.BooleanField(null=True,blank=False,verbose_name="Terms & Conditions")
 
     def save(self,*args,**kwargs):
         self.password = make_password(self.password)
