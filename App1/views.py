@@ -13,12 +13,12 @@ def save_form(request):
         form = Personal_details(request.POST, request.FILES)
       
         d = {}
+        print(form.data)
         if form.is_valid():
             print(form.errors)
             form.save()
             d['success']=True
             print(d)
-            
             return HttpResponse(json.dumps(d),content_type="application/json")
         else:
             print(d)

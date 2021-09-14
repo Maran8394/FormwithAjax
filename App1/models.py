@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import CharField
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.hashers import make_password
 
@@ -18,7 +19,7 @@ class Personal_Details(models.Model):
 
     #Contact Details
     email = models.EmailField(verbose_name="Email",null=True,blank=False)
-    mobile = PhoneNumberField(null=True,blank=False,verbose_name ="Mobile Number")
+    mobile = CharField(null=True,default="+91",verbose_name="Mobile Number",max_length=50)
     telePhone = models.IntegerField(verbose_name="TelePhone",default=None,blank=True,null=True)
     door_num = models.CharField(verbose_name="Door Number",null=True,blank=False,max_length=10)
     street =  models.CharField(verbose_name="Street",null=True,blank=False,max_length=100)
@@ -34,11 +35,11 @@ class Personal_Details(models.Model):
     institute_address = models.TextField(verbose_name="Institute address",max_length=200,null=True,blank=False)
     started_year = models.IntegerField(verbose_name="Started year",null=True,blank=False)
     passed_year = models.IntegerField(verbose_name="Passed year",null=True,blank=False)
-    percentage_gpa = models.DecimalField(verbose_name="Percentage/GPA",null=True,blank=False,max_digits=5,decimal_places=2)
+    percentage_gpa = models.DecimalField(verbose_name="Percentage/GPA",null=True,blank=False,max_digits=5,decimal_places=3)
     upload_resume   = models.FileField(verbose_name="Upload resume",upload_to='uploaded_resume',null=True,blank=False)
     password = models.CharField(verbose_name="Password",max_length=200,null=True,blank=False)
     confirm_password = models.CharField(verbose_name="Confirm Password",max_length=200,null=True,blank=False)
-
+    terms_conditions = models.BooleanField(verbose_name="Terms & Conditions",null=True,blank=True)
 
     def save(self,*args,**kwargs):
         self.password = make_password(self.password)

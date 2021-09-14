@@ -12,11 +12,15 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script type="text/javascript" href="{% static 'js/ajax.js' %}"></script>
+   
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script  src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
     
-
+ <script type="text/javascript" src="{% static 'js/script.js' %}"></script>
 </head>
 <body class="container">
 <style>
@@ -72,8 +76,9 @@ li{
         {{ form.upload_resume |as_crispy_field }}
         {{ form.password |as_crispy_field }}
         {{ form.confirm_password |as_crispy_field }}
-            
-        <button class="btn btn-primary" type="submit">Submit</button>
+        {{ form.terms_conditions |as_crispy_field }}
+        <input type="checkbox" id="showpassword"> Show Password<br><br>
+        <button class="btn btn-primary" type="submit" id="submit_btn">Submit</button>
         <button class="btn btn-danger" type="reset">Reset</button>
     </form>
 </div>
@@ -84,63 +89,129 @@ li{
 
 $(function(){
     var $registerForm = $("#Task1Form");
+
+    jQuery.validator.addMethod('noSpace',function(value,element){
+        return value.indexOf(" ") < 0 && value != "";
+    },"Space not allowed");
     
-   
+    $.validator.addMethod('year_compare', function (value, element, param) {
+        var s_year = $("#id_started_year");
+        var c_year = new Date().getFullYear();
+        return parseInt(value) > parseInt($(param).val()) && parseInt(value) != parseInt($(param).val()) && parseInt(value) <= c_year;
+    }, 'Enter Valid Passed Year');
+
+    $.validator.addMethod('age_check',function(p,value,element){
+        var c_year = new Date().getFullYear();
+        var parse = parseInt(p)+18;
+        return parse < c_year;
+        
+    },"You're Not Eligible");
+
     if($registerForm.length){
+ 
         $registerForm.validate({
             rules:{
                 email:{
+                    noSpace:true,
                     required:true,
                     email:true,
+                },
+                language_known:{noSpace:true,},
+                hobbies:{noSpace:true},
+                f_name:{
+                    required:true,
+                    noSpace:true,
+                },
+                l_name:{
+                    noSpace:true,
+                    required:true,
                 },
                 dob:{
                     required:true,
                     date:true,
+                    age_check:'#id_dob',
                 },
                 door_num:{
                     required:true,
                     number:true,
                     maxlength:5,
+                    noSpace:true,
+
                 },
                 zip_code:{
                     required:true,
                     number:true,
                     maxlength:7,
+                    noSpace:true,
                 },
                 started_year:{
                     required:true,
                     number:true,
                     maxlength:4,
                     minlength:4,
+                    noSpace:true,
                 },
                passed_year:{
                     required:true,
                     number:true,
                     maxlength:4,
                     minlength:4,
+                    noSpace:true,
+                    year_compare:'#id_started_year',
                 },
                 percentage_gpa:{
                     required:true,
-                    number:true,
                     maxlength:4,
+                    minlength:2,
+                    noSpace:true,
                 },
                 gender:{
                     required:true,
+                    
                 },
                 password: {
                     required:true,
                     minlength:5,
                     maxlength:16,
+                    noSpace:true,
                 },
                 confirm_password: {
                 equalTo: "#password"
                     },
                 mobile_1:{
                     required:true,
+                    noSpace:true,
                 },
                 upload_resume:{
-                    accept: "application/pdf",
+                    required:true,
+                    extension: "docx|rtf|doc|pdf",
                 },
+                
+                door_num:{
+                    noSpace:true,
+                },
+                town_city:{
+                    noSpace:true,
+                },
+                district:{
+                    noSpace:true,
+                },
+                state:{
+                    noSpace:true,
+                },
+                country:{
+                noSpace:true,
+                },
+                zip_code:{
+                    noSpace:true,
+                },
+                terms_conditions:{
+                    required:true,
+                }
+                
+                
+
+
             },
             messages:{
                 f_name:{
@@ -208,10 +279,12 @@ $(function(){
                     required:"Please Enter Your started year "
                 },
                 passed_year:{
-                    required:"Please Enter Your passed year "
+                    required:"Please Enter Your passed year ",
+                    year_compare:"Enter a valid year",
                 },
                 percentage_gpa:{
-                    required:"Please Enter Your percentage gpa "
+                    required:"Please Enter Your percentage or gpa ",
+                    
                 },
                 upload_resume:{
                     required:"Please Choose Your upload resume "
@@ -222,7 +295,9 @@ $(function(){
                 confirm_password:{
                     required:"Please Enter Your confirm password "
                 },
-                
+                terms_conditions:{
+                    required:"Please accept the terms & conditions",
+                }
                
             
             }
@@ -230,8 +305,24 @@ $(function(){
     }
 });
 
+$(document).ready(function (){
+    $('#showpassword').on('click',function(){
+        var p = $('#password');
+        var c_p = $('#id_confirm_password');
+        if(p.attr('type')==='password' && c_p.attr('type')==='password')
+        {
+            p.attr('type','text');
+            c_p.attr('type','text');
+        }
+        else{
+            p.attr('type','password');
+            c_p.attr('type','password');
+        }
+    })
+     
+});
 
-
+//ajax
 $(document).on('submit','#Task1Form',function(event){
     event.preventDefault();
     var Task1Form = $("#Task1Form")
@@ -248,7 +339,7 @@ $(document).on('submit','#Task1Form',function(event){
     //var mobile_num_0 = document.getElementById("id_mobile_0");
     var mobile_num_1 = document.getElementById("id_mobile");
     var telephone = document.getElementById("id_telePhone");
-    var  door_num = document.getElementById("id_door_num");
+    var door_num = document.getElementById("id_door_num");
     var street = document.getElementById("id_street");
     var town_city = document.getElementById("id_town_city");
     var district = document.getElementById("id_district");
@@ -264,13 +355,14 @@ $(document).on('submit','#Task1Form',function(event){
     var upload_resume = document.getElementById("resume");
     var password = document.getElementById("password");
     var confirm_password = document.getElementById("id_confirm_password");
+    var terms_conditions = document.getElementById("terms_conditions");
 
-  
+    
 
     //console.log(mobile_num_1.value);
     var csrf = document.getElementsByName("csrfmiddlewaretoken");
     //var mobile_num = mobile_num_0.value + mobile_num_1.value;
-    
+    //console.log(mobile_num);
     const fd  = new FormData();
     fd.append('csrfmiddlewaretoken',csrf[0].value);
     fd.append('f_name',f_name.value);
@@ -282,7 +374,7 @@ $(document).on('submit','#Task1Form',function(event){
     fd.append('hobbies',hobbies.value);
     fd.append('profile_pic',profile_pic.files[0]);
     fd.append('email',email.value);
- 
+    
     fd.append('mobile',mobile_num_1.value);
     fd.append("state",state.value);
     fd.append('telePhone',telephone.value);
@@ -301,6 +393,12 @@ $(document).on('submit','#Task1Form',function(event){
     fd.append('upload_resume',upload_resume.files[0]);
     fd.append('password',password.value);
     fd.append('confirm_password',confirm_password.value);
+    fd.append('terms_conditions',terms_conditions.value);
+
+   
+
+    
+
   
     $.ajax({
         url : "{% url 'personaldetails' %}",
@@ -323,11 +421,12 @@ $(document).on('submit','#Task1Form',function(event){
             
             }else{
                 var obj_val = Object.values(res['errors']);
-                alert(obj_val);
+                var obj_key = Object.keys(res['errors']);
+                alert(obj_key+" : "+obj_val);
             }
         },
         failure:function(error){
-            alert("error occured");
+            alert("Something went Wrong");
         }
     })
 
