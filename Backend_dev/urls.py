@@ -18,7 +18,8 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
-    path("",include('App1.urls')),
+    path("app1/",include('App1.urls')),
+    path('', include('Task3.url')),
     path('admin/', admin.site.urls),
 
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

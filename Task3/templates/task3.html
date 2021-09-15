@@ -1,11 +1,12 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Base</title>
+    <title>Task3</title>
     {% block style %}
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -19,14 +20,57 @@
     <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js"></script>
     <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
-    
-     <script type="text/javascript" src="{% static 'js/task3_script.js' %}"></script>
-    
+       
     {% endblock style %}
 </head>
 <body>
-    {% block content %}
+{% block content %}
+<style>
 
-    {% endblock %}
+.card{
+    width:50%; 
+    margin-top:15%;
+}
+
+
+</style>
+<center>
+<div class="card">
+    <div class="card-header">
+        <form class="form-group" method="POST" enctype="multipart/form-data" name="fileform",id="fileform">
+        {% csrf_token %}
+        <input type="file" accept="images/*" name="images" id="image" class="form-control-file" multiple required>
+        <br>
+        <button class="btn btn-primary" value="submit" type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+</center> 
+
+
+
 </body>
 </html>
+<script type="text/javascript">
+$(document).ready(function(){
+
+
+    $(":file").on("change", function(e) {
+        var ty = this.files[0].type;
+        var data = $("#image");
+        
+        console.log(data.value);
+        console.log(ty);
+
+        if( ty!='image/png' && ty!='image/jpeg' &&  ty!='image/jpg')
+        {
+            alert("Please Choose only Images");
+            var data = $("#image").val(null);
+        }
+  
+})
+});
+
+
+</script>
+{% endblock %}
