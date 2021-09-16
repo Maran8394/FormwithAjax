@@ -1,12 +1,11 @@
-from sys import getsizeof
+from django.core import serializers
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import Image_Validation
 from PIL import Image
-
-# Create your views here.
-
-
+from .models import Dynamic_fields
+from django.forms.models import model_to_dict
+import json
 def image_validation(request):
     try:
         if request.method == "POST":
@@ -24,8 +23,23 @@ def image_validation(request):
     except:
         return HttpResponse("Enter a valid Image")
 
-
 def success(request):
     m = Image_Validation.objects.all()
     
-    return render(request,'success.html',{'datas':m})
+    return render(request,'success1.html',{'datas':m})
+
+
+def dynamic_fields(request):
+    if request.method == "POST":
+        name = request.POST.getlist('name')
+        interest = request.POST.getlist("interest")
+        d = Dynamic_fields(user=name,interest=interest)
+        k = model_to_dict(d)
+        print(type(k.keys()),k.keys(),sep="-----")
+        print(type(k.keys()),k.values(),sep="-----")
+        j = json.dumps(k)
+        print(j)
+        print(j)
+        return redirect("success")
+    else:
+        return render(request,'dynamic_field.html')

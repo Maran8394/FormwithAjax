@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Task3.apps.Task3Config',
     'phonenumber_field',
     'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [

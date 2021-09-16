@@ -5,6 +5,8 @@ import sys
 from django.db.models.fields import files
 from django.utils.crypto import get_random_string
 from django.core.files.uploadedfile import InMemoryUploadedFile
+    
+
 # Create your models here.
 class Image_Validation(models.Model):
     img_field = models.ImageField(upload_to="img_validation/",null=True,blank=False)
@@ -53,3 +55,8 @@ class Image_Validation(models.Model):
             print("except block")
             super(Image_Validation, self).save(*args,**kwargs)
         
+
+class Dynamic_fields(models.Model):
+    user = models.CharField(max_length=50,null=True,blank=False)
+    interest = models.TextField(max_length=500,null=True,blank=False)
+    

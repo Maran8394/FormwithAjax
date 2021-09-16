@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .error{
+        color: red;
+    }
+</style>
+
+<div class="container">
+<h4>Dynamic Fields</h4>
+
+<form method="POST" name="dynamic" id="dynamic" class="form form-horizontal" >
+    {% csrf_token %}
+    <table id="table">
+        <tr id="row">
+            <td><input type="text" name="name" id="name" class="form-control" placeholder="Name" required></td>
+            <td><input type="text" name="interest" id="interest" class="form-control" placeholder="Interests" required></td>
+            
+            <td><button type="button" class="btn btn-danger btn-sm remove">Delete</button></td>
+        </tr>
+    </table>
+    <br>
+    <button class="btn btn-primary btn-sm" id="add">Add</button>
+    <button class="btn btn-dark btn-sm" type="submit" >Submit</button>
+    
+
+</form>
+
+</div>
+<script>
+   
+
+    var c = 0;
+    var row = $("#row");
+    function GetDynamicTextBox(value){
+        var r = $("#row").html();
+        return r
+    }
+    $("#add").bind('click',function(){
+        c= c+1;
+        var div = $("<tr />");
+        
+        div.html(GetDynamicTextBox(""));
+        $("#table").append(div);
+        //console.log(c);
+        
+    });
+
+    $("#table").on("click", ".remove", function () {
+
+        if (c!=0){
+            $(this).closest("tr").remove();
+            c=c-1;
+            //console.log("if"+" "+c);
+        }
+        else{
+            //console.log("else"+" "+c);
+            alert("You should enter atleast 1 Field");
+        }
+        
+    });
+
+    /*$("#interest ").on("change",function(){
+        var data = $(this).val();
+        alert($("#name").val());
+
+        $.ajax({
+            url:"{% url 'dynamic' %}",
+            type:"POST",
+        
+        });
+
+
+
+    });*/
+
+</script>
+
+
+{% endblock %}
