@@ -1,11 +1,12 @@
-from django.core import serializers
+
+from typing import Counter
 from django.http.response import HttpResponse
 from django.shortcuts import redirect, render
 from .models import Image_Validation
 from PIL import Image
 from .models import Dynamic_fields
-from django.forms.models import model_to_dict
 import json
+
 def image_validation(request):
     try:
         if request.method == "POST":
@@ -33,13 +34,18 @@ def dynamic_fields(request):
     if request.method == "POST":
         name = request.POST.getlist('name')
         interest = request.POST.getlist("interest")
-        d = Dynamic_fields(user=name,interest=interest)
-        k = model_to_dict(d)
-        print(type(k.keys()),k.keys(),sep="-----")
-        print(type(k.keys()),k.values(),sep="-----")
-        j = json.dumps(k)
-        print(j)
-        print(j)
-        return redirect("success")
+        d = Dynamic_fields()
+        d_user,d_interest, both= {},{},{}
+        
+        for i in range(len(name)):
+           d_user[i]=name[i]  
+           d_interest[i]=interest[i]
+           both[d_user[i]]=d_interest[i]
+        d.user = d_user
+        d.interest = d_interest
+        d.n_i = both
+        d.save()
+        return HttpResponse("Finish")
     else:
         return render(request,'dynamic_field.html')
+

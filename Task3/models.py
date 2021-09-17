@@ -5,6 +5,7 @@ import sys
 from django.db.models.fields import files
 from django.utils.crypto import get_random_string
 from django.core.files.uploadedfile import InMemoryUploadedFile
+
     
 
 # Create your models here.
@@ -57,6 +58,8 @@ class Image_Validation(models.Model):
         
 
 class Dynamic_fields(models.Model):
-    user = models.CharField(max_length=50,null=True,blank=False)
-    interest = models.TextField(max_length=500,null=True,blank=False)
+    user = models.JSONField(max_length=50,null=True,blank=False,default=dict)
+    interest = models.JSONField(max_length=500,null=True,blank=False,default=dict)
+    n_i = models.JSONField(max_length=500,null=True,blank=False,default=dict)
     
+   

@@ -14,15 +14,15 @@
     {% csrf_token %}
     <table id="table">
         <tr id="row">
-            <td><input type="text" name="name" id="name" class="form-control" placeholder="Name" required></td>
-            <td><input type="text" name="interest" id="interest" class="form-control" placeholder="Interests" required></td>
+            <td><input type="text" name="name" id="name" class="form-control name" placeholder="Name" required></td>
+            <td><input type="text" name="interest" id="interest" class="form-control interest" placeholder="Interests" required></td>
             
             <td><button type="button" class="btn btn-danger btn-sm remove">Delete</button></td>
         </tr>
     </table>
     <br>
     <button class="btn btn-primary btn-sm" id="add">Add</button>
-    <button class="btn btn-dark btn-sm" type="submit" >Submit</button>
+    <button class="btn btn-dark btn-sm" type="submit" id="submit" class="submit">Submit</button>
     
 
 </form>
@@ -61,19 +61,39 @@
         
     });
 
-    /*$("#interest ").on("change",function(){
-        var data = $(this).val();
-        alert($("#name").val());
+    jQuery.validator.addMethod('noSpace',function(value,element){
+        return value.indexOf(" ") < 0 && value != "";
+    },"Space not allowed");
 
-        $.ajax({
-            url:"{% url 'dynamic' %}",
-            type:"POST",
-        
-        });
+    $("#submit").on("click",function(){
+        var form = $("#dynamic");
+        if(form.length){
+            form.validate({});
+                $('#name').each(function() {
+                    $(this).rules("add", {
+                        required: true,
+                        noSpace:true,
+                        messages: {
+                            required: "Enter Something",
+                         }
+                    });	
+                });
 
+                $('.interest').each(function() {
+                    $(this).rules("add", {
+                        required: true,
+                        noSpace:true,
+                        messages: {
+                            required: "Enter Something",
+                         }
+                    });	
+                });
+                
+            
+        }
+    });
 
-
-    });*/
+    
 
 </script>
 
