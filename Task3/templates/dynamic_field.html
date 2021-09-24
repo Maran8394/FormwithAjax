@@ -21,7 +21,7 @@
         </tr>
     </table>
     <br>
-    <button class="btn btn-primary btn-sm" id="add">Add</button>
+    <button class="btn btn-primary btn-sm" id="addbtn">Add</button>
     <button class="btn btn-dark btn-sm" type="submit" id="submit" class="submit">Submit</button>
     
 
@@ -37,7 +37,7 @@
         var r = $("#row").html();
         return r
     }
-    $("#add").bind('click',function(){
+    $("#addbtn").bind('click',function(){
         c= c+1;
         var div = $("<tr />");
         
@@ -65,36 +65,30 @@
         return value.indexOf(" ") < 0 && value != "";
     },"Space not allowed");
 
-    $("#submit").on("click",function(){
-        var form = $("#dynamic");
-        if(form.length){
-            form.validate({});
-                $('#name').each(function() {
-                    $(this).rules("add", {
-                        required: true,
-                        noSpace:true,
-                        messages: {
-                            required: "Enter Something",
-                         }
-                    });	
-                });
+    $(function() {
+       
+$("#submit").on('click',function(){
+        $('.name').each(function() {
+            $(this).rules('add', {
+                required: true,
+                noSpace:true,
+                messages: {
+                    required: 'Enter Something'
+                }
+            });
+        });
 
-                $('.interest').each(function() {
-                    $(this).rules("add", {
-                        required: true,
-                        noSpace:true,
-                        messages: {
-                            required: "Enter Something",
-                         }
-                    });	
-                });
-                
-            
-        }
+        $('.interest').each(function() {
+            $(this).rules('add', {
+                required: true,
+                noSpace:true,
+                messages: {
+                    required: 'Enter Something'
+                }
+            });
+        });
     });
-
-    
-
+});
 </script>
 
 

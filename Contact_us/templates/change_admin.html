@@ -1,0 +1,8 @@
+
+{% include 'admin/change_form.html' %}
+{% load i18n %}
+
+{% block content %}
+    {% comment %} <input type="submit" value="{% trans 'Send' %}" class="default" name="_save"> {% endcomment %}
+    <button class="default" type="submit" name="_save"> {% trans 'Send' %} </button>
+{% endblock %}

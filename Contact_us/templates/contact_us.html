@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js"></script>
+
+</head>
+<style>
+    .asterisk{
+        color:red;
+    }
+    .error{
+        color:red;
+    }
+</style>
+<body class="container">
+
+
+    <form method="POST" enctype="multipart/form-data" class="form-group" id="resumeform">
+        {% csrf_token %}
+        <label for="name">Name<span class="asterisk">*</span></label>
+        <input type="text" name="name" id="name" class="form-control"><br>
+
+        <label for="email">Email<span class="asterisk">*</span></label><br>
+        <input type="email" name="email" id="email" class="form-control"><br>
+
+        <label for="mobile">Mobile<span class="asterisk">*</span></label>
+        <input type="mobile" name="mobile" id="mobile" class="form-control"><br>
+
+        <label for="message">Message<span class="asterisk">*</span></label>
+        <input type="text" name="message" id="message" class="form-control"><br>
+
+        <label for="resume">Upload Resume<span class="asterisk">*</span></label>
+        <input type="file" name="resume" id="resume" class="form-control-file" accept="application/pdf"><br>
+
+        <button type="submit" class="btn btn-primary" id="submitbtn">Submit</button>
+
+    </form>
+
+
+    
+</body>
+</html>
+<script>
+    $(function(){
+        jQuery.validator.addMethod('noSpace',function(value,element){
+            return value.indexOf(" ") < 0 && value != "";
+        },"Space not allowed");
+
+        var form = $("#resumeform");
+        if (form.length){
+            form.validate({
+                rules:{
+                    resume:{
+                        required:true,
+                        extension: "docx|rtf|doc|pdf",
+                        noSpace:true,
+                    },
+                    mobile:{
+                        required:true,
+                        max_length:10,
+                        min_lenght:10,
+                        noSpace:true,
+                    },
+                    name:{
+                        required:true,
+                        noSpace:true,
+                    },
+                    email:{
+                        required:true,
+                        noSpace:true,
+                       
+                    },
+                    message : {
+                        required:true,
+                        
+                    }
+                
+                },
+                messages:{
+                    resume:{
+                        required:"Please Choose Valid File",
+                    }
+                }
+            })
+        }
+    });
+    /*$("#submitbtn").click(function(){
+        
+        $.ajax({
+            url : "{% url 'resumeform' %}",
+            type : "POST",
+            dataType : "json",
+            mimeType : "multipart/form-data",
+            
+            data : {
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success:function(response){
+                console.log(response)
+                
+            },
+            failure:function(response){
+                alert("failure");
+                console.log(response);
+            }
+
+        });
+    });*/
+
+</script>

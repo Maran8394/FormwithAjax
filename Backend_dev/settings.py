@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'App1.apps.App1Config',
     'Task3.apps.Task3Config',
+    'Contact_us.apps.ContactUsConfig',
     'phonenumber_field',
     'crispy_forms',
     'rest_framework',
@@ -60,7 +61,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'templates'
+            BASE_DIR / 'templates',
+            BASE_DIR / 'templates/mailchimp'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -136,3 +138,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap3"
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = "maran.nexevo@gmail.com"
+EMAIL_HOST_PASSWORD = "Milky@8394"
+EMAIL_PORT = 587
