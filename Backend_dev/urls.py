@@ -18,9 +18,9 @@ from django.urls import path,include
 from django.conf import settings
 from django.conf.urls.static import static
 urlpatterns = [
-    path('', include('Task3.url')), # Dynamic Fields
+    path('Task3/', include('Task3.url')), # Dynamic Fields /image
     path("app1/",include('App1.urls')), #Form
-    path("contact_us/", include('Contact_us.urls')),
+    path("contact_us/", include('Contact_us.urls')), #Contact Us
     path('admin/', admin.site.urls),
 
 ]+static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

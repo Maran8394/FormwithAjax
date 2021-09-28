@@ -11,13 +11,13 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 # Create your models here.
 class Image_Validation(models.Model):
     img_field = models.ImageField(upload_to="img_validation/",null=True,blank=False)
-    img_thumb = models.ImageField(upload_to="img_validation_thumb/",null=True,blank=False)
+    img_thumb = models.ImageField(upload_to="img_validation_thumb/",null=True,blank=True, default=None)
     
 
     def save(self,*args,**kwargs):
-    
+        
         try:
-
+            print("enter ....")
             output = BytesIO() # for local storage
             output1 = BytesIO()
 
@@ -49,13 +49,16 @@ class Image_Validation(models.Model):
                 name="%s.jpg"%unique_id,
                 content_type='image/jpeg',
                 charset=None)
-
+            print(self.img_thumb)
+            print(self.img_field)
             super(Image_Validation, self).save(*args,**kwargs)
             
         except:
             print("except block")
             super(Image_Validation, self).save(*args,**kwargs)
         
+  
+
 
 class Dynamic_fields(models.Model):
     user = models.JSONField(max_length=50,null=True,blank=False,default=dict)

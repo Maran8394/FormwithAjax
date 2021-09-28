@@ -12,13 +12,16 @@ def image_validation(request):
         if request.method == "POST":
             up_image = request.FILES.getlist('images')
             for i in up_image:
+                print("forloop....")
                 get_img_size = Image.open(i)
                 if get_img_size.height >= 200 and get_img_size.width >=200:
+                    print("img validate....")
                     img = Image_Validation(img_field=i)
                     img.save()
+                    print("img_saved....")
                 else:
                     return HttpResponse("Image doesn't meet minimum requirements.")
-            return redirect('success')
+            return redirect('Task3.suc')
         
         return render(request,'task3.html')
     except:
@@ -27,7 +30,7 @@ def image_validation(request):
 def success(request):
     m = Image_Validation.objects.all()
     
-    return render(request,'success1.html',{'datas':m})
+    return render(request,'success.html',{'datas':m})
 
 
 def dynamic_fields(request):
